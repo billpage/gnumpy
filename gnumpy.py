@@ -566,14 +566,14 @@ class garray(object):
  # ------------------------------------------------------------------------------- internal aux
 
  def _set_shape_info(self, shape): # setting these as attributes rather than properties saves exec time
-  self.shape = shape
-  self.size = _prodT(shape)
+  self.shape = tuple([int(i) for i in shape])
+  self.size = int(_prodT(shape))
   self.ndim = len(shape)
  
  @property
- def nbytes(self): return self.size * 4
+ def nbytes(self): return int(self.size * 4)
  @property
- def nMBytes(self): return self.nbytes / 2**20
+ def nMBytes(self): return int(self.nbytes / 2**20)
   
  def _base_shaped(self, nDimsAsRows): return _cm_reshape(self._base, (_prodT(self.shape[:nDimsAsRows]), _prodT(self.shape[nDimsAsRows:])))
  def _base_as_row(self): return _cm_reshape(self._base, (1, self.size))
